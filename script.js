@@ -5,7 +5,7 @@ for (let i = 0; i < 256; i++) {
 }
 
 const handleHover = (e) => {
-  e.target.classList.add("active");
+  e.target.style.backgroundColor = "black";
 };
 
 const handleNewGridClick = (e) => {
@@ -21,7 +21,7 @@ const handleNewGridClick = (e) => {
 };
 
 const eraseTrail = (e) => {
-  document.querySelectorAll(".tile").forEach((el) => el.classList.remove("active"));
+  document.querySelectorAll(".tile").forEach((el) => el.removeAttribute("style"));
 };
 
 document.querySelectorAll(".tile").forEach((el) => {
