@@ -19,7 +19,8 @@ body {
 }
 .clear,
 .newGrid,
-.randomColor {
+.randomColor,
+.darken {
   padding: 8px 16px;
   border-radius: 5px;
   border: none;
@@ -62,6 +63,13 @@ body {
   background-color: #ffb41f;
 }
 
+.darken {
+  background-color: gray;
+}
+.darken:hover {
+  background-color: rgb(168, 168, 168);
+}
+
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -86,6 +94,8 @@ body {
 .active {
   transition: 0.3s ease-in;
   transform: scale(1.1);
+}
+.randomColor.active {
   background: linear-gradient(
     90deg,
     rgba(255, 0, 0, 1) 0%,

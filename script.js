@@ -1,3 +1,9 @@
+//Global Variables
+let randomColorActive = false;
+let progressiveDarken = false;
+let curBrightness = 10;
+
+//Create Grid Div
 for (let i = 0; i < 256; i++) {
   const div = document.createElement("div");
   div.classList.add("tile");
@@ -13,10 +19,17 @@ const getRandomColor = () => {
 };
 
 const handleHover = (e) => {
-  if (randomColorActive) return (e.target.style.backgroundColor = getRandomColor());
-  e.target.style.backgroundColor = "black";
+  let bgColor = "black";
+  if (progressiveDarken) {
+    e.target.style.filter = `brightness(${curBrightness / 10})`;
+    if (curBrightness > 0) --curBrightness;
+    bgColor = "white";
+  }
+  if (randomColorActive) bgColor = getRandomColor();
+  e.target.style.backgroundColor = bgColor;
 };
 
+//Create new grid
 const handleNewGridClick = (e) => {
   const errMessage = document.querySelector("h4");
   if (errMessage) errMessage.remove();
@@ -38,20 +51,20 @@ const handleNewGridClick = (e) => {
   }
 };
 
-const eraseTrail = (e) => {
-  document.querySelectorAll(".tile").forEach((el) => el.removeAttribute("style"));
+const clearBoard = (e) => {
+  document.querySelectorAll(".tile").forEach((el) => el.style.removeProperty("background-color"));
 };
 
-document.querySelectorAll(".tile").forEach((el) => {
-  el.addEventListener("mouseenter", handleHover);
-});
-
-document.querySelector(".newGrid").addEventListener("click", handleNewGridClick);
-document.querySelector(".clear").addEventListener("click", eraseTrail);
-
-let randomColorActive = false;
-let progressiveDarken = false;
-
-document.querySelector(".randomColor").addEventListener("click", (e) => {
+const handleToggleableClick = (e) => {
+  if (e.target.textContent === "Random Colors") randomColorActive = !randomColorActive;
+  if (e.target.textContent === "Darken") {
+    progressiveDarken = !progressiveDarken;
+    curBrightness = 10;
+  }
   e.target.classList.toggle("active");
-});
+};
+
+document.querySelectorAll(".tile").forEach((el) => el.addEventListener("mouseover", handleHover));
+document.querySelector(".newGrid").addEventListener("click", handleNewGridClick);
+document.querySelector(".clear").addEventListener("click", clearBoard);
+document.querySelectorAll(".toggleable").forEach((el) => el.addEventListener("click", handleToggleableClick));
